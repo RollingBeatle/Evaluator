@@ -39,6 +39,20 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.PowerShell.SDK": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "System.Management": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "System.Management.Automation": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
