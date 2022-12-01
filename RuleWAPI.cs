@@ -13,6 +13,7 @@ namespace Evaluator
         public string testID { get; set; }
         public string ruleID { get; set; }
         public string description { get; set; }
+        public String Inputcommand { get; set; }
 
         public RuleWAPI(String TestID, String ruleId, String Description)
         {

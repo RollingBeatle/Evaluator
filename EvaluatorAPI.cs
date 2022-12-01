@@ -11,10 +11,15 @@ namespace Evaluator
     {
         public ArrayList response;
 
+        public int resFound;
+
+        public int errors;
 
         public EvaluatorAPI()
         {
             response = new ArrayList();
+            resFound = 0;
+            errors = 0;
         }
         public void LoadTests(string filePath)
         {
@@ -59,44 +64,33 @@ namespace Evaluator
 
 
         }
-        public ArrayList powerShellScript()
+
+        public void testWMApi(String cmd, IRule rule, testObject input)
         {
-            ArrayList arr = new ArrayList();
-
-            PowerShell ps = PowerShell.Create();
-            ps.AddCommand("Get-LocalUser");
-
-            foreach (PSObject lu in ps.Invoke())
+            ArrayList tests = rule.testRule(cmd);
+            bool finished = false;
+            for (int i = 0; i < tests.Count; i++)
             {
-                Console.WriteLine(lu);
-                arr.Add(lu);
-            }
-            return arr;
 
+            }
         }
 
-        public ArrayList powerShellScriptWmi()
+        public void TestRun(testObject[] test, IRule[] rules)
         {
-            ArrayList arr = new ArrayList();
-
-            PowerShell ps = PowerShell.Create();
-            ps.AddScript("Get-CimInstance -ClassName Win32_UserAccount | Select-Object -Property Name");
-
-            foreach (PSObject lu in ps.Invoke())
+            int i = 0, lenT = test.Length;
+            int j = 0, lenR = rules.Length;
+            while (i < lenT)
             {
-                Console.WriteLine(lu.ToString());
-                arr.Add(lu);
+                while(j< lenR)
+                {
+                    testPS(rules[j].Inputcommand, rules[j], test[i]);
+                }
+
             }
-            return arr;
-
+            
         }
 
-        public void TestRun(testObject test)
-        {
-
-        }
-
-        public void processTestList()
+        public void processResults()
         {
 
         }

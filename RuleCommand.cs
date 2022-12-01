@@ -13,7 +13,7 @@ namespace Evaluator
 
         public String description { get; set; }
 
-        private String Inputcommand { get; set; }
+        public String Inputcommand { get; set; }
 
         public ArrayList testRule(String command)
         {

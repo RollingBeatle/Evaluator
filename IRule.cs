@@ -13,5 +13,8 @@ namespace Evaluator
         public String ruleID { get; set; }
 
         public String description { get; set; }
+
+        public String Inputcommand { get; set; }
+
     }
 }
