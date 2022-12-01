@@ -92,7 +92,7 @@ namespace Evaluator
 
         public void processResults()
         {
-
+            Console.WriteLine("Results");
         }
     }
 }
