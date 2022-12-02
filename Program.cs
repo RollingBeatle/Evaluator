@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Evaluator
 {
@@ -7,11 +9,29 @@ namespace Evaluator
     {
         static void Main(string[] args)
         {
+
             String[] shellCommands = { "Get-LocalUser", "Get-CimInstance -ClassName Win32_UserAccount | Select-Object -Property Name" };
             EvaluatorAPI usersAPI = new EvaluatorAPI();
+
             RuleCommand rule = new RuleCommand("1", "1", "This is a test");
+            RuleCommand rule1 = new RuleCommand("1", "1", "This is a test");
+            RuleWAPI rule2 = new RuleWAPI("1", "1", "This is a test");
+
+            rule.Inputcommand = "Get-LocalUser";
+            rule1.Inputcommand = "Get-CimInstance -ClassName Win32_UserAccount | Select-Object -Property Name";
+            rule2.Inputcommand = "net user";
             testObject tObject = new testObject("1", "1", "Administrador");
+            List<IRule> rules = new List<IRule>();
+            rules.Add(rule);
+            rules.Add(rule1);
+            rules.Add(rule2);
+            usersAPI.LoadTests("C:\\Users\\diego\\OneDrive\\Documentos\\UCSC\\OperatingSystems\\Evaluator\\tests.txt");
             usersAPI.testPS(shellCommands[0], rule, tObject);
+            int j = 0, lenT = rules.Count;
+            while(j < lenT)
+            {
+                usersAPI.TestRun(rules);
+            }
             ArrayList arr = usersAPI.response;
             //usersAPI.powerShellScriptWmi();
             for (int i = 0; i < arr.Count; i++)

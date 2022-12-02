@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Collections;
 using System.Management.Automation;
+using System.Reflection;
+
 namespace Evaluator
 {
     class EvaluatorAPI
@@ -15,16 +17,25 @@ namespace Evaluator
 
         public int errors;
 
+        public List<testObject> testIDs;
+
         public EvaluatorAPI()
         {
             response = new ArrayList();
             resFound = 0;
             errors = 0;
+            testIDs = new List<testObject>();
         }
         public void LoadTests(string filePath)
         {
-            String text = File.ReadAllText(filePath);
-           // var test = JsonConvert.DeserializeObject<List<testObject>>(text);
+            
+            foreach (string line in System.IO.File.ReadLines(filePath))
+            {
+                System.Console.WriteLine(line);
+                string[] words = line.Split(',');
+                testObject cTest = new testObject(words[0], words[1], words[1]);
+                testIDs.Add(cTest);
+            }
         }
 
         public void testPS(String cmd, IRule rule, testObject input)
@@ -75,15 +86,15 @@ namespace Evaluator
             }
         }
 
-        public void TestRun(testObject[] test, IRule[] rules)
+        public void TestRun(List<IRule> rules)
         {
-            int i = 0, lenT = test.Length;
-            int j = 0, lenR = rules.Length;
+            int i = 0, lenT = testIDs.Count;
+            int j = 0, lenR = rules.Count;
             while (i < lenT)
             {
                 while(j< lenR)
                 {
-                    testPS(rules[j].Inputcommand, rules[j], test[i]);
+                    testPS(rules[j].Inputcommand, rules[j], testIDs[i]);
                 }
 
             }
