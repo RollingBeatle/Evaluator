@@ -19,12 +19,15 @@ namespace Evaluator
 
         public List<testObject> testIDs;
 
+        public int resNotFound;
+
         public EvaluatorAPI()
         {
             response = new ArrayList();
             resFound = 0;
             errors = 0;
             testIDs = new List<testObject>();
+            resNotFound = 0;
         }
         public void LoadTests(string filePath)
         {
@@ -53,6 +56,7 @@ namespace Evaluator
                         res1.resStatus = (int)Result.resultCodes.detected;
                         finished = true;
                         response.Add(res1);
+                        resFound++;
                         break;
                     }
 
@@ -63,6 +67,7 @@ namespace Evaluator
                     res1.resStatus = (int)Result.resultCodes.error;
                     response.Add(res1);
                     finished = true;
+                    errors++;
                 }
 
             }
@@ -70,6 +75,7 @@ namespace Evaluator
             {
                 Result res = new Result(input.testID, "Finished", rule.ruleID);
                 res.resStatus = (int)Result.resultCodes.Notdetected;
+                resNotFound++;
                 response.Add(res);
             }
 
@@ -90,13 +96,15 @@ namespace Evaluator
         {
             int i = 0, lenT = testIDs.Count;
             int j = 0, lenR = rules.Count;
+
             while (i < lenT)
             {
                 while(j< lenR)
                 {
                     testPS(rules[j].Inputcommand, rules[j], testIDs[i]);
+                    j++;
                 }
-
+                i++;
             }
             
         }

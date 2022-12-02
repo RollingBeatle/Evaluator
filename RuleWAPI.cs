@@ -72,8 +72,9 @@ namespace Evaluator
                 for (int i = 0; i < EntriesRead; i++)
                 {
                     Users[i] = (USER_INFO_1)Marshal.PtrToStructure(iter, typeof(USER_INFO_1)); //check iteration
-                    iter = (IntPtr)((int)iter + Marshal.SizeOf(typeof(USER_INFO_1)));
+                    iter = (IntPtr)(iter + Marshal.SizeOf(typeof(USER_INFO_1)));
                     arr.Add(Users[i].usri1_name);
+                    Console.WriteLine("Windows API");
                     Console.WriteLine(Users[i].usri1_name);
 
                 }
