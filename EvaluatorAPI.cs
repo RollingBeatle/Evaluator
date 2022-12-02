@@ -36,7 +36,7 @@ namespace Evaluator
             {
                 System.Console.WriteLine(line);
                 string[] words = line.Split(',');
-                testObject cTest = new testObject(words[0], words[1], words[1]);
+                testObject cTest = new testObject(words[0], words[1], words[2]);
                 testIDs.Add(cTest);
             }
         }
@@ -47,7 +47,7 @@ namespace Evaluator
             bool finished = false;
             for (int i = 0; i < tests.Count; i++)
             {
-                Console.WriteLine(tests[i]);
+                Console.WriteLine(tests[i]+ "printing the i "+ i);
                 try
                 {
                     if (input.userName.Equals(tests[i].ToString()))
@@ -68,6 +68,7 @@ namespace Evaluator
                     response.Add(res1);
                     finished = true;
                     errors++;
+                    break;
                 }
 
             }
@@ -99,8 +100,11 @@ namespace Evaluator
 
             while (i < lenT)
             {
-                while(j< lenR)
+                Console.WriteLine("TESTING USER" + testIDs[i].userName);
+                while(j< lenR )
                 {
+
+                    if (rules[j].testID != testIDs[i].testID) { break;  }
                     testPS(rules[j].Inputcommand, rules[j], testIDs[i]);
                     j++;
                 }

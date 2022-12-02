@@ -24,8 +24,16 @@ namespace Evaluator
             Inputcommand = command;
             foreach (PSObject lu in ps.Invoke())
             {
-                Console.WriteLine(lu.ToString());
-                arr.Add(lu);
+                String str = lu.ToString();
+                if (str.Contains("@"))
+                {
+                   
+                    str = str.Remove(0, 7);
+                    str = str.Remove(str.Length - 1, 1);
+                }
+                Console.WriteLine(str);
+
+                arr.Add(str);
             }
 
             return arr;
