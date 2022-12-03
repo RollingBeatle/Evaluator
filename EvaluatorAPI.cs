@@ -21,6 +21,8 @@ namespace Evaluator
 
         public int resNotFound;
 
+        public String resultPath;
+
         public EvaluatorAPI()
         {
             response = new ArrayList();
@@ -34,7 +36,7 @@ namespace Evaluator
             
             foreach (string line in System.IO.File.ReadLines(filePath))
             {
-                System.Console.WriteLine(line);
+                
                 string[] words = line.Split(',');
                 testObject cTest = new testObject(words[0], words[1], words[2]);
                 testIDs.Add(cTest);
@@ -47,7 +49,7 @@ namespace Evaluator
             bool finished = false;
             for (int i = 0; i < tests.Count; i++)
             {
-                Console.WriteLine(tests[i]+ "printing the i "+ i);
+                
                 try
                 {
                     if (input.userName.Equals(tests[i].ToString()))
@@ -57,6 +59,7 @@ namespace Evaluator
                         finished = true;
                         response.Add(res1);
                         resFound++;
+                        processResults(res1);
                         break;
                     }
 
@@ -67,7 +70,9 @@ namespace Evaluator
                     res1.resStatus = (int)Result.resultCodes.error;
                     response.Add(res1);
                     finished = true;
+
                     errors++;
+                    processResults(res1);
                     break;
                 }
 
@@ -76,22 +81,15 @@ namespace Evaluator
             {
                 Result res = new Result(input.testID, "Finished", rule.ruleID);
                 res.resStatus = (int)Result.resultCodes.Notdetected;
+
                 resNotFound++;
+                processResults(res);
                 response.Add(res);
             }
 
 
         }
 
-        public void testWMApi(String cmd, IRule rule, testObject input)
-        {
-            ArrayList tests = rule.testRule(cmd);
-            bool finished = false;
-            for (int i = 0; i < tests.Count; i++)
-            {
-
-            }
-        }
 
         public void TestRun(List<IRule> rules)
         {
@@ -100,7 +98,7 @@ namespace Evaluator
 
             while (i < lenT)
             {
-                Console.WriteLine("TESTING USER" + testIDs[i].userName);
+                //Console.WriteLine("TESTING USER" + testIDs[i].userName);
                 while(j< lenR )
                 {
 
@@ -113,10 +111,30 @@ namespace Evaluator
             
         }
 
-        public void processResults()
+        public void processResults(Result res)
         {
-            Console.WriteLine("Results");
-            Console.WriteLine(resFound);
+          
+            // This text is added only once to the file.
+            if (!File.Exists(resultPath))
+            {
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(resultPath))
+                {
+                    sw.WriteLine("Test ID " + res.testID + " Rule ID " + res.ruleID + " Status Num" + res.resStatus + "  " + res.status);
+                    sw.WriteLine("found " + resFound + " not found " + resNotFound);
+
+                }
+            }
+
+            // This text is always added, making the file longer over time
+            // if it is not deleted.
+            using (StreamWriter sw = File.AppendText(resultPath))
+            {
+                sw.WriteLine("Test ID " + res.testID + " Rule ID " + res.ruleID + " Status Num" + res.resStatus + "  " + res.status);
+                sw.WriteLine("found " + resFound + " not found " + resNotFound);
+
+            }
+
         }
     }
 }

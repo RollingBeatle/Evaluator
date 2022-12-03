@@ -64,7 +64,7 @@ namespace Evaluator
             ArrayList arr = new ArrayList();
 
             NetUserEnum(null, 1, 0, out bufPtr, -1, out EntriesRead, out TotalEntries, out Resume);
-            Console.WriteLine(TotalEntries);
+            //Console.WriteLine(TotalEntries);
             if (EntriesRead > 0)
             {
                 USER_INFO_1[] Users = new USER_INFO_1[EntriesRead];
@@ -74,8 +74,8 @@ namespace Evaluator
                     Users[i] = (USER_INFO_1)Marshal.PtrToStructure(iter, typeof(USER_INFO_1)); //check iteration
                     iter = (IntPtr)(iter + Marshal.SizeOf(typeof(USER_INFO_1)));
                     arr.Add(Users[i].usri1_name);
-                    Console.WriteLine("Windows API");
-                    Console.WriteLine(Users[i].usri1_name);
+                    //Console.WriteLine("Windows API");
+                    //Console.WriteLine(Users[i].usri1_name);
 
                 }
 

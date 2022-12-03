@@ -31,7 +31,7 @@ namespace Evaluator
                     str = str.Remove(0, 7);
                     str = str.Remove(str.Length - 1, 1);
                 }
-                Console.WriteLine(str);
+                //Console.WriteLine(str);
 
                 arr.Add(str);
             }
